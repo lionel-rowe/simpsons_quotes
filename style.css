@@ -5,10 +5,18 @@ html, body {
   padding: 0;
 }
 
-body {
+/*hack to fix bg attachment on mobile*/
+body:before {
   background: skyblue;
   background: linear-gradient(to bottom, deepskyblue, skyblue);
-  background-attachment: fixed;
+  content: "";
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
 }
 
 body {
