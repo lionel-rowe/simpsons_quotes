@@ -93,13 +93,19 @@ q::after {
 }
 
 .charImg {
-  height: 100%;
+  max-width: 30vw;
 }
 
 .text {
   font-size: 1.1em;
   margin: 0 auto;
   text-align: center;
+}
+
+
+/*hyphenation hack*/
+.quote, .author {
+  word-break: break-word;
 }
 
 .paddingLeft {
