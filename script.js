@@ -67,6 +67,7 @@ document.onreadystatechange = function() {
         
         loadingImage.classList.add('hidden');
         content.classList.remove('hidden');
+        getNew.focus();
       }
 
       dataImage.src = data.image;
@@ -77,6 +78,7 @@ document.onreadystatechange = function() {
     function failure() {
       loadingImage.classList.add('hidden');
       content.classList.remove('hidden');
+      getNew.focus();
       alert('Sorry! Something went wrong when retrieving the data. Please refresh and try again!');
     }
 
