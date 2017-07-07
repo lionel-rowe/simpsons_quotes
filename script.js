@@ -1,5 +1,5 @@
-
 document.onreadystatechange = function() {
+  'use strict';
   if (document.readyState === 'interactive') {
 
     const quote = document.querySelector('#quote');
@@ -7,12 +7,11 @@ document.onreadystatechange = function() {
     const charPic = document.querySelector('#charPic');
     const getNew = document.querySelector('#getNew');
     const loadingImage = document.querySelector('#loadingImage');
+    const failureMessage = document.querySelector('#failureMessage');
     const content = document.querySelector('#content');
     const textAndPic = document.querySelector('#textAndPic');
     const text = document.querySelector('#text');
     const tweetButton = document.querySelector('#tweetButton');
-
-    var xhr;
 
     getNewContent();
     getNew.onclick = getNewContent;
@@ -22,12 +21,12 @@ document.onreadystatechange = function() {
       content.classList.add('hidden');
       loadingImage.classList.remove('hidden');
 
-      xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest();
 
       xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
-            var data = JSON.parse(xhr.responseText)[0];
+            const data = JSON.parse(xhr.responseText)[0];
             success(data);
           } else {
             failure();
@@ -41,7 +40,7 @@ document.onreadystatechange = function() {
     }
 
     function success(data) {
-      var dataImage = new Image();
+      const dataImage = new Image();
       dataImage.onload = function() {
         quote.innerHTML = data.quote;
         charName.innerHTML = data.character;
@@ -67,6 +66,10 @@ document.onreadystatechange = function() {
         
         loadingImage.classList.add('hidden');
         content.classList.remove('hidden');
+        textAndPic.classList.remove('hidden');
+        failureMessage.classList.add('hidden');
+        tweetButton.classList.remove('hidden');
+
         getNew.focus();
       }
 
@@ -78,8 +81,11 @@ document.onreadystatechange = function() {
     function failure() {
       loadingImage.classList.add('hidden');
       content.classList.remove('hidden');
+      textAndPic.classList.add('hidden');
+      failureMessage.classList.remove('hidden');
+      tweetButton.classList.add('hidden');
+
       getNew.focus();
-      alert('Sorry! Something went wrong when retrieving the data. Please refresh and try again!');
     }
 
   }

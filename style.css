@@ -67,7 +67,7 @@ q::after {
   background: rgba(0,0,0,0.1);
   border-radius: 50px;
   max-width: 550px;
-  min-height: 250px;
+  min-height: 260px;
   margin: 0 auto;
 }
 
@@ -106,7 +106,7 @@ q::after {
   text-align: center;
 }
 
-/*hyphenation hack*/
+/*avoid long words breaking layout*/
 .quote, .author {
   word-break: break-word;
 }
@@ -127,13 +127,19 @@ q::after {
   flex-direction: row-reverse;
 }
 
+.failureMessage {
+  text-align: center;
+}
+
+.loadingImage, .failureImage {
+	height: 170px;
+}
+
 .loadingImage {
   position: absolute;
-	height: 170px;
   left: 50%;
   transform: translate(-50%, -50%);
   top: 50%;
-  z-index: 10;
 }
 
 .hidden {

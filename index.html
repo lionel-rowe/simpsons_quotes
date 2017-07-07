@@ -5,9 +5,9 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#000000">
   	<title>Simpsons Quotes</title>
-    <!--<link rel="icon" href="img/stonehorse.png">-->
+    <link rel="icon" href="donut.png">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="script.js"></script>
+    <script type="text/javascript" src="script_babeled.js"></script>
   </head>
   <body>
     <div class="bigContainer">
@@ -16,6 +16,10 @@
         <div class="quoteBox">
           <img src="itchyandscratchy.gif" alt="Loading..." class="loadingImage hidden" id="loadingImage">
           <div id="content">
+            <div id="failureMessage" class="failureMessage hidden">
+          	  <img src="doh.png" alt="D'oh!" class="failureImage" id="failureImage">
+          	  <p>D&lsquo;oh! Looks like something went wrong. Please check your connection and try again.</p>
+            </div>
             <div class="textAndPic" id="textAndPic">
               <div id="charPic" class="imageContainer right"></div>
               <div class="text" id="text">
@@ -32,6 +36,10 @@
       </div>
     </div>
     <footer><a href="https://thesimpsonsquoteapi.glitch.me/">Simpsons Quotes API</a> by <a href="https://forum.freecodecamp.com/u/jluboff/summary">Jason Luboff</a></footer>
+
+  <!--<script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:4000/browser-sync/browser-sync-client.js?v=2.18.12'><\/script>".replace("HOST", location.hostname));
+//]]></script>-->
 
   </body>
 </html>
