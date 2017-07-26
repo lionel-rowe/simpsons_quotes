@@ -1,7 +1,5 @@
-'use strict';
-
 document.onreadystatechange = function () {
- 'use strict';
+  'use strict';
 
   if (document.readyState === 'interactive') {
     var getNewContent = function getNewContent() {
@@ -29,8 +27,8 @@ document.onreadystatechange = function () {
     var success = function success(data) {
       var dataImage = new Image();
       dataImage.onload = function () {
-        quote.innerHTML = data.quote;
-        charName.innerHTML = data.character;
+        quote.innerText = data.quote;
+        charName.innerText = data.character;
         charPic.innerHTML = '<img src="' + data.image + '" alt="' + data.character + '" class="charImg"></img>';
 
         if (data.characterDirection.toLowerCase() === 'left') {
@@ -48,7 +46,7 @@ document.onreadystatechange = function () {
         }
 
         tweetButton.onclick = function () {
-          window.open(('https://twitter.com/intent/tweet?hashtags=Simpsons&related=freecodecamp&text=' + data.quote + ' \u2014 ' + data.character).replace(';', '%3B'), '_blank');
+          window.open('https://twitter.com/intent/tweet?hashtags=Simpsons&related=freecodecamp&text=' + encodeURIComponent(data.quote + ' \u2014 ' + data.character), '_blank');
         };
 
         loadingImage.classList.add('hidden');

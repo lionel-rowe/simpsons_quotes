@@ -42,8 +42,8 @@ document.onreadystatechange = function() {
     function success(data) {
       const dataImage = new Image();
       dataImage.onload = function() {
-        quote.innerHTML = data.quote;
-        charName.innerHTML = data.character;
+        quote.innerText = data.quote;
+        charName.innerText = data.character;
         charPic.innerHTML = `<img src="${data.image}" alt="${data.character}" class="charImg"></img>`
         
         if (data.characterDirection.toLowerCase() === 'left') {
@@ -61,7 +61,7 @@ document.onreadystatechange = function() {
         }
 
         tweetButton.onclick = function() {
-          window.open(`https://twitter.com/intent/tweet?hashtags=Simpsons&related=freecodecamp&text=${data.quote} — ${data.character}`.replace(';','%3B'), '_blank');
+          window.open(`https://twitter.com/intent/tweet?hashtags=Simpsons&related=freecodecamp&text=${encodeURIComponent(`${data.quote} — ${data.character}`)}`, '_blank');
       }
         
         loadingImage.classList.add('hidden');
