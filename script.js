@@ -2,6 +2,11 @@ document.onreadystatechange = function() {
   'use strict';
   if (document.readyState === 'interactive') {
 
+    const tweetLength = 140;
+    const twitterShortUrlLength = 23;
+
+    const hashtag = 'Simpsons';
+
     const quote = document.querySelector('#quote');
     const charName = document.querySelector('#charName');
     const charPic = document.querySelector('#charPic');
@@ -12,8 +17,36 @@ document.onreadystatechange = function() {
     const textAndPic = document.querySelector('#textAndPic');
     const text = document.querySelector('#text');
     const tweetButton = document.querySelector('#tweetButton');
+    
+    //more concise encodeURIComponent
 
-    getNewContent();
+    function shortEncode(string) {
+      return encodeURIComponent(string).replace(/%20/g, '+');
+    }
+
+    function shortDecode(string) {
+      return decodeURIComponent(string.replace(/\+/g, '%20'));
+    }
+
+    const queryParams = {};
+    if (window.location.search.slice(1)) {
+      const queryParamArray = window.location.search.slice(1).split('&');
+      queryParamArray.forEach(function(el) {
+        queryParams[el.split('=')[0]] = shortDecode(el.split('=')[1]);
+      });
+    }
+
+    if (queryParams.quote && queryParams.character && queryParams.image && queryParams.characterDirection) {
+      showQuote({
+        quote: queryParams.quote
+        , character: queryParams.character
+        , image: queryParams.image
+        , characterDirection: queryParams.characterDirection
+      });
+    } else {
+      getNewContent();
+    }
+
     getNew.onclick = getNewContent;
 
     function getNewContent() {
@@ -27,7 +60,7 @@ document.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             const data = JSON.parse(xhr.responseText)[0];
-            success(data);
+            showQuote(data);
           } else {
             failure();
           }
@@ -39,9 +72,16 @@ document.onreadystatechange = function() {
 
     }
 
-    function success(data) {
+    function showQuote(data) {
       const dataImage = new Image();
       dataImage.onload = function() {
+        
+        const nonQuoteLength = data.character.length + hashtag.length + 4; // emdash + space + hash + space
+        const tweetQuoteLength = tweetLength - nonQuoteLength - twitterShortUrlLength;
+        const trimmedQuote = data.quote.length > tweetQuoteLength ?
+          data.quote.slice(0, tweetQuoteLength - 1) + '…'
+          : data.quote;
+
         quote.innerText = data.quote;
         charName.innerText = data.character;
         charPic.innerHTML = `<img src="${data.image}" alt="${data.character}" class="charImg"></img>`
@@ -60,8 +100,12 @@ document.onreadystatechange = function() {
           text.classList.remove('paddingLeft');
         }
 
+        const permalink = `${window.location.origin}${window.location.pathname}?quote=${shortEncode(data.quote)}&character=${shortEncode(data.character)}&image=${shortEncode(data.image)}&characterDirection=${shortEncode(data.characterDirection)}`;
+        console.log(data.characterDirection);
+        console.log(permalink);
+
         tweetButton.onclick = function() {
-          window.open(`https://twitter.com/intent/tweet?hashtags=Simpsons&related=freecodecamp&text=${encodeURIComponent(`${data.quote} — ${data.character}`)}`, '_blank');
+          window.open(`https://twitter.com/intent/tweet?text=${shortEncode(`${trimmedQuote}—${data.character}`)}&url=${shortEncode(permalink)}&hashtags=${hashtag}&related=freecodecamp`, '_blank');
       }
         
         loadingImage.classList.add('hidden');
@@ -74,7 +118,6 @@ document.onreadystatechange = function() {
       }
 
       dataImage.src = data.image;
-
 
     }
 
